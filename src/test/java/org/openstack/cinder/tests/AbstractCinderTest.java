@@ -1,4 +1,4 @@
-package com.woorea.openstack.cinder.test;
+package org.openstack.cinder.tests;
 
 import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackRequest;

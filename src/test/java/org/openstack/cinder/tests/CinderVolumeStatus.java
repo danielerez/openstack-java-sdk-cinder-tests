@@ -1,4 +1,4 @@
-package com.woorea.openstack.cinder.test;
+package org.openstack.cinder.tests;
 
 import java.util.HashMap;
 import java.util.Map;
