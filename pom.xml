@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId> com.woorea.openstack.cinder.test</groupId>
+  <artifactId>cinder-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <openstack-client.version>3.2.2-SNAPSHOT</openstack-client.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>openstack-client</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>keystone-client</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>keystone-model</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>glance-client</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>glance-model</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>quantum-client</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>quantum-model</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>cinder-client</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>cinder-model</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.woorea</groupId>
+      <artifactId>resteasy-connector</artifactId>
+      <version>${openstack-client.version}</version>
+    </dependency>
+  </dependencies>
+</project>
