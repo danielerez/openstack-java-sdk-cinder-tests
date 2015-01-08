@@ -20,6 +20,9 @@ Basic functional tests for woorea's openstack-java-sdk [1] of Cinder
 * Create/Get/Delete volume type.
 * List volume types.
 
+### Limits
+* List absolute limits.
+
 
 [1] https://github.com/woorea/openstack-java-sdk
 
