@@ -37,9 +37,7 @@ public class CinderVolumesTest extends AbstractCinderTest {
 
     @Test(timeout = TIMEOUT)
     public void testDeleteVolume() throws InterruptedException {
-        final Thread thread = Thread.currentThread();
         final String newVolumeId = createVolume("test_delete").getId();
-
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -55,17 +53,17 @@ public class CinderVolumesTest extends AbstractCinderTest {
                         case ErrorDeleting:
                             log.error(String.format("Failed to delete volume %s", newVolumeId));
                             cancel();
-                            thread.interrupt();
+                            completedMap.put("testDeleteVolume", true);
                             break;
                     }
                 } catch (OpenStackResponseException e) {
                     cancel();
                     Assert.assertEquals(e.getStatus(), HttpStatus.SC_NOT_FOUND);
-                    thread.interrupt();
+                    completedMap.put("testDeleteVolume", true);
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testDeleteVolume") == null);
     }
 
     @Test
@@ -81,9 +79,7 @@ public class CinderVolumesTest extends AbstractCinderTest {
 
     @Test(timeout = TIMEOUT)
     public void testExtendVolume() {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_extend").getId();
-
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -95,7 +91,7 @@ public class CinderVolumesTest extends AbstractCinderTest {
                         } else {
                             cancel();
                             Assert.assertEquals(volume.getSize(), Integer.valueOf(2));
-                            thread.interrupt();
+                            completedMap.put("testExtendVolume", true);
                         }
                         break;
                     case Extending:
@@ -107,7 +103,7 @@ public class CinderVolumesTest extends AbstractCinderTest {
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testExtendVolume") == null);
     }
 
     @Test
@@ -120,9 +116,7 @@ public class CinderVolumesTest extends AbstractCinderTest {
 
     @Test
     public void testCloneVolume() {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_volume_to_clone").getId();
-
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
@@ -132,12 +126,14 @@ public class CinderVolumesTest extends AbstractCinderTest {
                         cancel();
                         Volume volumeClone = createVolume("test_cloned_volume", volumeId);
                         Assert.assertEquals(volumeClone.getSourceVolid(), volumeId);
-                        thread.interrupt();
+                        completedMap.put("testCloneVolume", true);
+                        break;
+                    default:
                         break;
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testCloneVolume") == null);
     }
 
     private Volumes getVolumes() {
@@ -150,15 +146,19 @@ public class CinderVolumesTest extends AbstractCinderTest {
     }
 
     private Volume createVolume(String name) {
-        return createVolume(name, null);
+        return createVolume(name, null, VOLUME_TYPE);
     }
 
     private Volume createVolume(String name, String source_volid) {
+        return createVolume(name, source_volid, null);
+    }
+
+    private Volume createVolume(String name, String source_volid, String volumeType) {
         VolumeForCreate volumeForCreate = new VolumeForCreate();
         volumeForCreate.setName(name);
         volumeForCreate.setDescription("test_description");
         volumeForCreate.setSize(1);
-        volumeForCreate.setVolumeType(VOLUME_TYPE);
+        volumeForCreate.setVolumeType(volumeType);
         volumeForCreate.setSourceVolid(source_volid);
         return getClient(getTenantId()).volumes().create(volumeForCreate).execute();
     }

@@ -33,7 +33,6 @@ public class CinderSnapshotsTest extends AbstractCinderTest {
 
     @Test(timeout = TIMEOUT)
     public void testCreateSnapshot() {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_create").getId();
 
         Timer timer = new Timer();
@@ -46,17 +45,16 @@ public class CinderSnapshotsTest extends AbstractCinderTest {
                         Snapshot snapshot = createSnapshot("test_create", volume.getId());
                         Assert.assertNotNull(snapshot);
                         log.info(getSnapshotById(snapshot.getId()));
-                        thread.interrupt();
+                        completedMap.put("testCreateSnapshot", true);
                         break;
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testCreateSnapshot") == null);
     }
 
     @Test(timeout = TIMEOUT)
     public void testDeleteSnapshot() throws InterruptedException {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_delete").getId();
 
         Timer timer = new Timer();
@@ -82,17 +80,16 @@ public class CinderSnapshotsTest extends AbstractCinderTest {
                     } catch (OpenStackResponseException e) {
                         cancel();
                         Assert.assertEquals(e.getStatus(), HttpStatus.SC_NOT_FOUND);
-                        thread.interrupt();
+                        completedMap.put("testDeleteSnapshot", true);
                     }
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testDeleteSnapshot") == null);
     }
 
     @Test(timeout = TIMEOUT)
     public void testUpdateSnapshot() {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_update").getId();
 
         Timer timer = new Timer();
@@ -109,17 +106,16 @@ public class CinderSnapshotsTest extends AbstractCinderTest {
                         updateSnapshot(snapshot.getId(), newName, newDesc);
                         snapshot = getSnapshotById(snapshot.getId());
                         Assert.assertTrue(snapshot.getName().equals(newName) && snapshot.getDescription().equals(newDesc));
-                        thread.interrupt();
+                        completedMap.put("testUpdateSnapshot", true);
                         break;
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testUpdateSnapshot") == null);
     }
 
     @Test(timeout = TIMEOUT)
     public void testShowMetadata() throws InterruptedException {
-        final Thread thread = Thread.currentThread();
         final String volumeId = createVolume("test_metadata").getId();
 
         Timer timer = new Timer();
@@ -140,12 +136,12 @@ public class CinderSnapshotsTest extends AbstractCinderTest {
 
                         Metadata updatedMetadata = getSnapshotMetadata(snapshot.getId());
                         log.info(updatedMetadata);
-                        thread.interrupt();
+                        completedMap.put("testShowMetadata", true);
                         break;
                 }
             }
         }, 0, 1000);
-        while (!thread.isInterrupted()) ;
+        while (completedMap.get("testShowMetadata") == null);
     }
 
     private Snapshots getSnapshots() {

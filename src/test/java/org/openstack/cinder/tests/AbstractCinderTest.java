@@ -10,6 +10,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AbstractCinderTest {
 
     private static final String CINDER_URL = ""; // e.g. http://<FQDN>:8776
@@ -21,7 +24,8 @@ public class AbstractCinderTest {
     private static final String API_VERSION = "/v2/";
 
     protected static final Log log = LogFactory.getLog(AbstractCinderTest.class);
-    public static final long TIMEOUT = 1000 * 60;
+    protected static final long TIMEOUT = 1000 * 60;
+    protected static Map<String, Boolean> completedMap = new HashMap<String, Boolean>();
 
     private Cinder client;
     KeystoneTokenProvider keystoneTokenProvider;
