@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class CinderVolumeTypesTest extends AbstractCinderTest {
 
@@ -25,7 +26,7 @@ public class CinderVolumeTypesTest extends AbstractCinderTest {
 
     @Test
     public void testCreateVolumeType() {
-        VolumeType volumeType = createVolumeType("test_create");
+        VolumeType volumeType = createVolumeType("test_create_" + new Random().nextInt());
         Assert.assertNotNull(volumeType);
         log.info(getVolumeTypeById(volumeType.getId()));
     }
