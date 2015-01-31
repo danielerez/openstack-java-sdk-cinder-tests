@@ -2,6 +2,7 @@ package org.openstack.cinder.tests;
 
 import com.woorea.openstack.base.client.OpenStackRequest;
 import com.woorea.openstack.base.client.OpenStackResponseException;
+import com.woorea.openstack.cinder.model.ConnectionForInitialize;
 import com.woorea.openstack.cinder.model.ConnectionInfo;
 import com.woorea.openstack.cinder.model.Volume;
 import com.woorea.openstack.cinder.model.VolumeForCreate;
@@ -178,7 +179,8 @@ public class CinderVolumesTest extends AbstractCinderTest {
     }
 
     private ConnectionInfo initializeConnectionForVolume(String volumeId) {
-        return getClient(getTenantId()).volumes().initializeConnection(volumeId).execute();
+        ConnectionForInitialize connectionForInitialize = new ConnectionForInitialize();
+        return getClient(getTenantId()).volumes().initializeConnection(volumeId, connectionForInitialize).execute();
     }
 
 }
