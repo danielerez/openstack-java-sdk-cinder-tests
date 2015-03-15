@@ -56,7 +56,7 @@ public class CinderVolumeTypesTest extends AbstractCinderTest {
         VolumeTypeForCreate volumeTypeForCreate = new VolumeTypeForCreate();
         volumeTypeForCreate.setName(name);
 
-        Map<String, Object> extraSpecs = new HashMap<String, Object>();
+        Map<String, String> extraSpecs = new HashMap<String, String>();
         extraSpecs.put("volume_backend_name", "ceph");
         volumeTypeForCreate.setExtraSpecs(extraSpecs);
 
