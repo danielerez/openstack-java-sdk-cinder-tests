@@ -136,6 +136,14 @@ public class CinderVolumesTest extends AbstractCinderTest {
         while (completedMap.get("testCloneVolume") == null);
     }
 
+    @Test
+    public void testCloneVolumeFromSnapshot() {
+        String snapshotId = "0845ea70-f834-45bf-a9d8-bef60621c2eb";
+        Volume volumeClone = createVolumeFromSnapshot("test_cloned_volume_from_snapshot", snapshotId, VOLUME_TYPE);
+        Assert.assertEquals(volumeClone.getSnapshotId(), snapshotId);
+        completedMap.put("testCloneVolume", true);
+    }
+
     private Volumes getVolumes() {
         OpenStackRequest<Volumes> listRequest = getClient(getTenantId()).volumes().list(true);
         return listRequest.execute();
@@ -160,6 +168,16 @@ public class CinderVolumesTest extends AbstractCinderTest {
         volumeForCreate.setSize(1);
         volumeForCreate.setVolumeType(volumeType);
         volumeForCreate.setSourceVolid(source_volid);
+        return getClient(getTenantId()).volumes().create(volumeForCreate).execute();
+    }
+
+    private Volume createVolumeFromSnapshot(String name, String snapshotId, String volumeType) {
+        VolumeForCreate volumeForCreate = new VolumeForCreate();
+        volumeForCreate.setName(name);
+        volumeForCreate.setDescription("test_description");
+        volumeForCreate.setSize(1);
+        volumeForCreate.setVolumeType(volumeType);
+        volumeForCreate.setSnapshotId(snapshotId);
         return getClient(getTenantId()).volumes().create(volumeForCreate).execute();
     }
 

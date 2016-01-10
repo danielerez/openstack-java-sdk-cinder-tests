@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
 
   <properties>
-    <openstack-client.version>3.2.2-SNAPSHOT</openstack-client.version>
+    <openstack-client.version>3.1.1</openstack-client.version>
   </properties>
 
   <dependencies>
